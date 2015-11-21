@@ -64,6 +64,9 @@ func tplParseFaviconType(url string) string {
 	}
 	return split[len(split)-1]
 }
+func admin_topbar() string {
+	return " <a href=\"admin.html\">admin</a>&nbsp<a href=\"admin_boards.html\">boards</a>&nbsp<a href=\"admin_urser.html\">your settings</a>&nbsp<a href=\"admin_users.html\">users</a>"
+}
 
 var default_funcmap = template.FuncMap{
 	"TimeRelativeToNow": TimeRelativeToNow,
@@ -72,6 +75,7 @@ var default_funcmap = template.FuncMap{
 	"IsValidTime":       tplIsValidTime,
 	"GetStringSetting":  tplGetStringSetting,
 	"ParseFaviconType":  tplParseFaviconType,
+	"Admin_topbar":      admin_topbar,
 }
 
 func RenderTemplate(
