@@ -73,6 +73,14 @@ func GetBoard(id int) (*Board, error) {
 	return obj.(*Board), err
 }
 
+func GetBoardsfor(group int64) ([]*Board, error) {
+	db := GetDbSession()
+
+	var boards []*Board
+	_, err := db.Select(&boards, "SELECT * FROM boards WHERE groupid=$1 OR groupid=0 ORDER BY ordering ASC", group)
+
+	return boards, err
+}
 func GetBoards() ([]*Board, error) {
 	db := GetDbSession()
 
@@ -81,13 +89,14 @@ func GetBoards() ([]*Board, error) {
 
 	return boards, err
 }
-
 func GetBoardsUnread(user *User) ([]*JoinBoardView, error) {
 	db := GetDbSession()
 
 	user_id := int64(-1)
+	group_id := int64(-1)
 	if user != nil {
 		user_id = user.Id
+		group_id = user.GroupId
 	}
 
 	var boards []*JoinBoardView
@@ -95,13 +104,14 @@ func GetBoardsUnread(user *User) ([]*JoinBoardView, error) {
         SELECT
             boards.*,
             views.time AS viewed_on
-        FROM boards
+        FROM boards 
         LEFT OUTER JOIN views ON
             views.post_id=(SELECT id FROM posts WHERE board_id=boards.id AND parent_id IS NULL ORDER BY latest_reply DESC LIMIT 1) AND
             views.user_id=$1
+	WHERE groupid=$2 OR groupid=0
         ORDER BY
             ordering ASC
-    `, user_id)
+    `, user_id, group_id)
 
 	for i := range boards {
 		if user_id == -1 {

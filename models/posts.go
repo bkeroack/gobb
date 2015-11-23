@@ -133,8 +133,7 @@ func (post *Post) Validate() error { //this doesnt seem to be getting called
 	fmt.Println(bid)
 	fmt.Println(aid) //why is this negative? that's really bad
 
-	if bid != 0 &&
-		aid != bid {
+	if bid != 0 && aid != bid && aid != -1 {
 
 		return errors.New("You are not a member of the correct group")
 	}

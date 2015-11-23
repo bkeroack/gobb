@@ -137,6 +137,7 @@ func ActionMoveThread(w http.ResponseWriter, r *http.Request) {
 	board_id, err := strconv.Atoi(board_id_str)
 
 	op, err := models.GetPost(thread_id)
+	//	boards, _ := models.GetBoardsfor(current_user.GroupId)
 	boards, _ := models.GetBoards()
 
 	if op == nil || err != nil {
