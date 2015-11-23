@@ -49,8 +49,9 @@ func AdminBoards(w http.ResponseWriter, r *http.Request) {
 			name := r.Form["name"][i]
 			desc := r.Form["description"][i]
 			form_order := r.Form["order"][i]
+			groupidst := r.Form["groupid"][i]
 			var order int
-
+			var groupid int64
 			if form_order != "" {
 				if len(form_order) == 0 {
 					order = 1
@@ -60,7 +61,12 @@ func AdminBoards(w http.ResponseWriter, r *http.Request) {
 			} else {
 				order = 1
 			}
-			board := models.UpdateBoard(name, desc, order, id)
+			if len(groupidst) < 1 {
+				groupid = 0
+			} else {
+				groupid, _ = strconv.ParseInt(groupidst, 10, 64)
+			}
+			board := models.UpdateBoard(name, desc, order, id, groupid)
 
 			db.Update(board)
 		}

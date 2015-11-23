@@ -107,7 +107,7 @@ func (post *Post) PostGet(s gorp.SqlExecutor) error {
 }
 
 // Ensures that a post is valid
-func (post *Post) Validate() error {
+func (post *Post) Validate() error { //this doesnt seem to be getting called
 	if post.BoardId == 0 {
 		return errors.New("Board does not exist")
 	}
@@ -118,6 +118,25 @@ func (post *Post) Validate() error {
 
 	if !post.ParentId.Valid && len(post.Title) <= 3 {
 		return errors.New("Post title must be longer than three characters")
+	}
+	db := GetDbSession()
+	board, _ := db.Get(Board{}, post.BoardId)
+	if board == nil {
+		return errors.New("Could not find board")
+	}
+	author, _ := db.Get(User{}, post.BoardId)
+	if author == nil {
+		return errors.New("Could not find author")
+	}
+	bid := board.(*Board).GroupID
+	aid := author.(*User).GroupId
+	fmt.Println(bid)
+	fmt.Println(aid) //why is this negative? that's really bad
+
+	if bid != 0 &&
+		aid != bid {
+
+		return errors.New("You are not a member of the correct group")
 	}
 
 	return nil

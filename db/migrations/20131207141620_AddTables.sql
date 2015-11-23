@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS boards (
     id           SERIAL PRIMARY KEY,
     title        VARCHAR(45),
-    description  VARCHAR(140)
+    description  VARCHAR(140),
+    groupid	 INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS posts (

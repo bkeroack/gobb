@@ -19,6 +19,12 @@ func main() {
 	flag.StringVar(&config_path, "config", "gobb.conf", "Specifies the location of a config file")
 	run_migrations := flag.Bool("migrate", false, "Runs database migrations")
 	ign_migrations := flag.Bool("ignore-migrations", false, "Ignores an out of date database and runs the server anyways")
+	serve := flag.Bool("serve", false, "run server")
+	useradd := flag.Bool("add-user", false, "add a user")
+	var name, password string
+	flag.StringVar(&name, "name", "", "username to add")
+	flag.StringVar(&password, "password", "", "password new user")
+	group := flag.Int64("group", 0, "group of new user (<0 is special group, 0 is default, 1 is mod, 2 is admin)")
 	flag.Parse()
 	config.GetConfig(config_path)
 
@@ -37,7 +43,18 @@ func main() {
 		fmt.Println("Your database appears to be out of date. Please run migrations with --migrate or ignore this message with --ignore-migrations")
 		return
 	}
+	db := models.GetDbSession()
 
+	if *useradd {
+		user := models.NewUser(name, password)
+		user.GroupId = *group
+		err = db.Insert(user)
+
+	}
+
+	if !*serve {
+		return
+	}
 	// URL Routing!
 	r := mux.NewRouter()
 	r.StrictSlash(true)

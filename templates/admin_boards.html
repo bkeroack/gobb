@@ -8,6 +8,7 @@
             <td>Board title</td>
             <td>Description</td>
             <td>Order</td>
+            <td>Group</td>
         </tr>
         {{ range .boards }}
         <tr>
@@ -18,6 +19,7 @@
             <td><input value="{{ .Title }}" type="text" name="name" placeholder="Board title"></td>
             <td><input value="{{ .Description }}" type="text" name="description" placeholder="Board description"></td>
             <td><input value="{{ .Order }}" type="text" name="order" placeholder="auto"></td>
+            <td><input value="{{ .GroupID }}" type="text" name="groupid" placeholder="0"></td>
         </tr>
         {{ end }}
     </table>

@@ -85,12 +85,16 @@ func UserSettings(w http.ResponseWriter, r *http.Request) {
 	if current_user.Signature.Valid {
 		signature = current_user.Signature.String
 	}
+	var group int64
+	group = 0
+	group = current_user.GroupId
 
 	utils.RenderTemplate(w, r, "user_settings.html", map[string]interface{}{
 		"error":             form_error,
 		"success":           success,
 		"user_stylesheet":   stylesheet,
 		"user_signature":    signature,
+		"user_group":        group,
 		"enable_signatures": enable_signatures,
 	}, nil)
 }

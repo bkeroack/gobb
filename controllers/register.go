@@ -2,12 +2,15 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/stevenleeg/gobb/config"
 	"github.com/stevenleeg/gobb/models"
 	"github.com/stevenleeg/gobb/utils"
 	"net/http"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
+	enable_register, _ := config.Config.GetBool("gobb", "enable_registration")
+
 	if utils.GetCurrentUser(r) != nil {
 		http.Redirect(w, r, "/", http.StatusFound)
 		return
@@ -19,6 +22,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		confirm := r.FormValue("password2")
 
 		var error string
+		if !enable_register {
+			error = "registration must be done from operating system shell by administrator"
+		}
 		if password != confirm {
 			error = "Passwords don't match"
 		}

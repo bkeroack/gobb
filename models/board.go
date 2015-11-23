@@ -13,6 +13,7 @@ type Board struct {
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	Order       int    `db:"ordering"`
+	GroupID     int64  `db:groupid`
 }
 
 type BoardLatest struct {
@@ -27,6 +28,7 @@ type JoinBoardView struct {
 	Description string      `db:"description"`
 	Order       int         `db:"ordering"`
 	ViewedOn    pq.NullTime `db:"viewed_on"`
+	GroupID     int64       `db:groupid`
 }
 
 type JoinThreadView struct {
@@ -51,12 +53,13 @@ func NewBoard(title, desc string, order int) *Board {
 	}
 }
 
-func UpdateBoard(title, desc string, order int, id int64) *Board {
+func UpdateBoard(title, desc string, order int, id int64, group int64) *Board {
 	return &Board{
 		Title:       title,
 		Description: desc,
 		Order:       order,
 		Id:          id,
+		GroupID:     group,
 	}
 }
 
@@ -106,7 +109,8 @@ func GetBoardsUnread(user *User) ([]*JoinBoardView, error) {
 		}
 
 		boards[i].Board = &Board{
-			Id: boards[i].Id,
+			Id:      boards[i].Id,
+			GroupID: boards[i].GroupID,
 		}
 	}
 	return boards, err

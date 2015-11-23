@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/stevenleeg/gobb/models"
 	"github.com/stevenleeg/gobb/utils"
@@ -111,10 +112,12 @@ func AdminUser(w http.ResponseWriter, r *http.Request) {
 			success = true
 		}
 	}
+	fmt.Print(user.GroupId)
 
 	utils.RenderTemplate(w, r, "admin_user.html", map[string]interface{}{
 		"error":   form_error,
 		"success": success,
 		"user":    user,
+		"group":   user.GroupId,
 	}, nil)
 }

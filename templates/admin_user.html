@@ -42,12 +42,9 @@
     <input type="password" name="password_new2" placeholder="Their new password again" />
 
     <h2>Admin settings</h2>
-    <label for="group_id">User's group:</label>
-    <select name="group_id">
-        <option value="0" {{ if eq .user.GroupId 0 }}selected{{ end }}>User</option>
-        <option value="1" {{ if eq .user.GroupId 1 }}selected{{ end }}>Moderator</option>
-        <option value="2" {{ if eq .user.GroupId 2 }}selected{{ end }}>Administrator</option>
-    </select>
+    <label for="group_id">User's group:</label> <!-- TODO: display group numbers -->
+    <input type=text name="group_id" value="{{ .group }}">  </input>
+    <p> Admin is group 2, Moderators are group 1, new users are group 0. Negative groups may have boards that only they may write to.</p>
 
     <input type="submit" class="submit button" value="Save Settings">
     </form>
