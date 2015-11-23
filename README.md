@@ -1,6 +1,14 @@
 # GoBB
 A simple forum platform written in Go. 
+## This fork
+This fork adds some features that where needed in order to replace a small phpbb instance:
+ * Adding users from the command line 
+ * Board/user groups
+ * Ability to disable web registration from the config file
+ * Fixed the admin template
 
+### Warning: migrations are currently broken
+I'm not very good at sql and needed to add a new field to the board table, if you try to run this fork of gobb with an older database strange things may happen. If you want to run it please make a new database.
 ## Warning! Alpha quality software!
 GoBB is currently in its early stages of development. While it is pretty usable at the moment (and actively being used in a *trusted* production environment), I'd recommend you hold off on using it for something big for the time being. There are still a lot of things that need to be patched up before it's ready for the big leagues. Having said that, if you're looking for a simple (and blazing fast) bulletin board for your friends who are willing to deal with some bugs, this might be the bb for you!
 
